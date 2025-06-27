@@ -8152,6 +8152,7 @@ function replaceImagePaths(inputContent) {
     // Only replace image paths outside of code blocks
     for (let i = 0; i < parts.length; i++) {
         if (!parts[i].startsWith('```')) {
+            parts[i] = parts[i].replace(/!\[(.*?)\]\((.*?)\s*=\d+x\d*\)/g, `![$1]($2)`);
             parts[i] = parts[i].replace(/!\[(.*?)\]\((\/.*?)\)/g, `![$1](${githubRawUrl}$2)`);
         }
     }
