@@ -5,6 +5,10 @@
     "strict": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "scripts/*": ["scripts/*"]
+    },
     "jsx": "react-jsx",
     "typeRoots": ["./node_modules/@types"],
   },

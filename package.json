@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "ncc build scripts/ztoq.tsx -o dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -24,9 +24,12 @@
   "devDependencies": {
     "@qiita/qiita-cli": "^1.6.1",
     "@types/git-url-parse": "^9.0.3",
+    "@types/jest": "^30.0.0",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.7.4",
     "@vercel/ncc": "^0.38.2",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   }
