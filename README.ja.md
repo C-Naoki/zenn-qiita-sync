@@ -59,7 +59,7 @@ zenn 用の記事を GitHub にプッシュすると、自動的に qiita に記
         branches:
           - main
           - master
-        workflow_dispatch:
+      workflow_dispatch:
 
     permissions:
       contents: write

@@ -60,7 +60,7 @@ You can use this tool by following the steps below. Refer my [repo](https://gith
         branches:
           - main
           - master
-        workflow_dispatch:
+      workflow_dispatch:
 
     permissions:
       contents: write
