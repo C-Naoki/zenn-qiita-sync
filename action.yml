@@ -64,6 +64,10 @@ runs:
             fi
             echo "🚚 Convert $file to qiita/public/$filename.md"
             node ${{ github.action_path }}/dist/index.js "$file" "./qiita/public/$filename.md"
+          elif grep -q "published: false" "$file"; then
+            echo "⏭️ Skip converting $file because published: false"
+          else
+            echo "⏭️ Skip converting $file because published is not true"
           fi
 
         done
@@ -71,19 +75,29 @@ runs:
       if: steps.files.outcome == 'success'
 
     - name: Commit converted Qiita articles
+      id: commit
       run: |
         rm $GITHUB_WORKSPACE/changed_files.txt
         rm package-lock.json package.json
         git config --local user.name ${{ github.actor }}
         git config --local user.email ${{ github.actor }}@users.noreply.github.com
-        git add qiita/public/*.md
+        if compgen -G "qiita/public/*.md" > /dev/null; then
+          git add qiita/public/*.md
+        fi
+        if git diff --cached --quiet; then
+          echo "⏭️ No converted Qiita article changes to commit"
+          echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
         git commit -m "${{ inputs.convert-commit-message }}"
         git push
+        echo "has_changes=true" >> "$GITHUB_OUTPUT"
       shell: bash
       if: steps.files.outcome == 'success'
 
     - name: Publish Qiita articles
       uses: increments/qiita-cli/actions/publish@v1
+      if: steps.commit.outputs.has_changes == 'true'
       with:
         qiita-token: ${{ inputs.qiita-token }}
         root: ${{ inputs.root }}
